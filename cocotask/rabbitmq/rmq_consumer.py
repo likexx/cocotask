@@ -5,6 +5,8 @@ from .common import createBlockingConnection
 # from ..logger import logger
 import time
 
+from multiprocessing import Process
+
 
 class CocoRMQConsumer(CocoBaseConsumer):
 
@@ -26,7 +28,7 @@ class CocoRMQConsumer(CocoBaseConsumer):
                 time.sleep(10)
 
 
-    def _connect_and_consume(self):        
+    def _connect_and_consume(self):
         self._logger.info("Trying to connect RabbitMQ server ...")
         self._connection, channel = createBlockingConnection(self._config)
 
@@ -40,4 +42,6 @@ class CocoRMQConsumer(CocoBaseConsumer):
 
     def _on_message(self, ch, method, properties, body):
         worker = self._worker_class(self._config)
-        worker.process(body)
+        p = Process(target=worker.process, args=(body, ))
+        p.start()
+        p.join()

@@ -1,12 +1,13 @@
 from ..base_consumer import CocoBaseConsumer
 from kafka import KafkaConsumer
 import time
+from multiprocessing import Process
 
 class CocoKafkaConsumer(CocoBaseConsumer):
     def __init__(self, conf, worker, logger = None):
     	self._consumer = None
     	super().__init__(conf, worker, logger)
-        
+
     def connect(self):
       while True:
         try:
@@ -50,7 +51,10 @@ class CocoKafkaConsumer(CocoBaseConsumer):
 
     def _process_data(self, data):
         worker = self._worker_class(self._config)
-        worker.process(data)      
+        p = Process(target=worker.process, args=(data, ))
+        p.start()
+        p.join()
+        # worker.process(data)
 
 
 

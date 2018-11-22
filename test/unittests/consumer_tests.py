@@ -31,7 +31,7 @@ class ConsumerTests(unittest.TestCase):
                 "PASSWORD": "guest",
                 "EXCHANGE_NAME": "test_exchange_1",
                 "QUEUE_NAME": "test_queue_1",
-                "EXCHANGE_TYPE": "direct"                   
+                "EXCHANGE_TYPE": "direct"
             }
         }
 
@@ -53,7 +53,7 @@ class ConsumerTests(unittest.TestCase):
                 "EXCHANGE_NAME": "test_exchange_1",
                 "QUEUE_NAME": "test_queue_1",
                 "EXCHANGE_TYPE": "direct",
-                "HEARTBEAT": 10             
+                "HEARTBEAT": 10
             }
         }
 
